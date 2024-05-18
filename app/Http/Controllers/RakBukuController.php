@@ -6,19 +6,12 @@ use Illuminate\Http\Request;
 
 class RakBukuController extends Controller
 {
-    public function pre($arr = [])
-    {
-        echo '<pre>';
-        print_r($arr);
-        echo '</pre>';
-    }
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $rak = RakBuku::all();
-        $this->pre($request->session()->all());
         return view('rak_buku.index', ['rak' => $rak]);
     }
     /**
@@ -40,9 +33,7 @@ class RakBukuController extends Controller
         $rak->nama = $request->input('nama');
         $rak->lokasi = $request->input('lokasi');
         $rak->keterangan = $request->input('keterangan');
-        $request->session()->put('rak', $rak);
         $rak->save();
-        $request->session()->flash('pesan', 'Data telah berhasil tersimpan.');
         return redirect('/rak_buku');
     }
     /**
@@ -71,7 +62,6 @@ class RakBukuController extends Controller
         $rakBuku->lokasi = $request->input('lokasi');
         $rakBuku->keterangan = $request->input('keterangan');
         $rakBuku->save();
-        $request->session()->flash('pesan', 'Data telah berhasil diubah.');
         return redirect('/rak_buku');
     }
     /**
@@ -80,7 +70,6 @@ class RakBukuController extends Controller
     public function destroy(RakBuku $rakBuku)
     {
         $rakBuku->delete();
-        $request->session()->flash('pesan', 'Data telah berhasil dihapus.');
         return redirect('/rak_buku');
     }
 }
